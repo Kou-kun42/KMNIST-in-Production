@@ -14,6 +14,9 @@ __pycache__/
 dataset/
 */dataset/
 
+# Model
+*.h5
+
 # Images Downloaded for Testing
 test-assets/
 

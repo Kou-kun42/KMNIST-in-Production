@@ -13,14 +13,13 @@ class ImagePredictor:
         character_map = pd.read_csv("model/k49_classmap.csv", encoding="utf-8")
         img = cv2.imdecode(np.frombuffer(image_file, np.uint8), cv2.IMREAD_GRAYSCALE)
 
-        # img.resize((28, 28))
-        # img = image.img_to_array(img)
-        # img = np.expand_dims(img, axis=0)
-        # img /= 255
+        img = image.img_to_array(img)
+        img = np.expand_dims(img, axis=0)
+        img /= 255
         # img = 1 - img
 
-        #  pred = self.model.predict(img)
+        pred = self.model.predict(img)
 
-        # character_map.iloc[[pred.argmax()]]["char"].values[0]
+        character_map.iloc[[pred.argmax()]]["char"].values[0]
 
-        return img
+        return character_map.iloc[[pred.argmax()]]["char"].values[0]

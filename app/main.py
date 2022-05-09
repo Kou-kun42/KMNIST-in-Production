@@ -12,18 +12,12 @@ model = ImagePredictor()
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        img_file = Image.open(request.files.get("img_file"))
+        img_file = Image.open(request.files.get("img_file")).resize((28, 28))
         data = io.BytesIO()
         img_file.save(data, "JPEG")
         img_data = base64.b64encode(data.getvalue()).decode('utf-8')
 
-        # print(model.predict_from_array(data.getvalue()))
-
-        arr = model.predict_from_array(data.getvalue())
-        imgasd = Image.fromarray(arr)
-        dater = io.BytesIO()
-        imgasd.save(dater, "JPEG")
-        img_data = base64.b64encode(dater.getvalue()).decode('utf-8')
+        print(model.predict_from_array(data.getvalue()))
 
         return render_template('index.html', img_data=img_data)
     else:

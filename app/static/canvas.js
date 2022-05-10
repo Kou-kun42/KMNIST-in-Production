@@ -100,3 +100,10 @@ predictBtn.addEventListener("click", () => {
             });
     }
 });
+
+document.addEventListener("keydown", function (event) {
+    if (event.code == "Enter" || event.code == "Space") {
+        event.preventDefault();
+        document.getElementById("predict").click();
+    }
+});

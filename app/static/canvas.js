@@ -2,34 +2,53 @@ const canvas = document.getElementById("canvas");
 canvas.height = 280;
 canvas.width = 280;
 
-const context = canvas.getContext(
-    "2d",
-    ((preserveDrawingBuffer = true),
-    (desynchronized = true),
-    (antialias = true),
-    (powerPreference = "high-performance"))
-);
+const context = canvas.getContext("2d");
 context.fillStyle = "white";
 context.fillRect(0, 0, canvas.width, canvas.height);
 
 context.lineWidth = 20;
+context.lineCap = "round";
 
 let x1 = null;
 let y1 = null;
+
+let submitted = false;
 
 let click = false;
 window.addEventListener("mousedown", (e) => (click = true));
 window.addEventListener("mouseup", (e) => (click = false));
 
 window.addEventListener("mousemove", (e) => {
+    let rect = canvas.getBoundingClientRect();
+
+    if (
+        submitted &&
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom &&
+        click
+    ) {
+        document.getElementById("clear").click();
+        submitted = false;
+    }
+
     if (x1 == null || y1 == null || !click) {
-        x1 = e.clientX;
-        y1 = e.clientY;
+        x1 = Math.round(
+            ((e.clientX - rect.left) / (rect.right - rect.left)) * canvas.width
+        );
+        y1 = Math.round(
+            ((e.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height
+        );
         return;
     }
 
-    let x2 = e.clientX;
-    let y2 = e.clientY;
+    let x2 = Math.round(
+        ((e.clientX - rect.left) / (rect.right - rect.left)) * canvas.width
+    );
+    let y2 = Math.round(
+        ((e.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height
+    );
 
     context.beginPath();
     context.moveTo(x1, y1);
@@ -40,32 +59,44 @@ window.addEventListener("mousemove", (e) => {
     y1 = y2;
 });
 
-let resetBtn = document.querySelector(".reset");
-resetBtn.addEventListener("click", () => {
+let clearBtn = document.querySelector(".clear");
+clearBtn.addEventListener("click", () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.fillStyle = "white";
     context.fillRect(0, 0, canvas.width, canvas.height);
 });
 
+let isEmpty = () => {
+    const blank = document.createElement("canvas");
+    blank.height = canvas.height;
+    blank.width = canvas.width;
+    const blankCtx = blank.getContext("2d");
+    blankCtx.fillStyle = "white";
+    blankCtx.fillRect(0, 0, blank.width, blank.height);
+    return canvas.toDataURL() === blank.toDataURL();
+};
+
 let predictBtn = document.querySelector(".predict");
 predictBtn.addEventListener("click", () => {
-    data = [];
-    let img_data = canvas.toDataURL("image/jpeg");
-    let img = document.createElement("img");
-    img.id = "img_file";
+    empty = isEmpty();
+    if (!empty) {
+        let img_data = canvas.toDataURL("image/jpeg");
+        let pred = document.createElement("h1");
+        pred.id = "pred";
 
-    fetch("/", {
-        method: "POST",
-        redirect: "follow",
-        body: img_data,
-    })
-        .then((response) => response.json())
-        .then((result) => {
-            img.src = result.image;
-            document.getElementById("body").appendChild(img);
-            console.log(result.prediction);
+        fetch("/", {
+            method: "POST",
+            redirect: "follow",
+            body: img_data,
         })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+            .then((response) => response.json())
+            .then((result) => {
+                pred.innerHTML = result.prediction;
+                document.getElementById("pred").innerHTML = pred.innerHTML;
+                submitted = true;
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
 });

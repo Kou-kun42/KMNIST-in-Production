@@ -72,6 +72,29 @@ window.addEventListener("mousemove", (e) => {
     y1 = y2;
 });
 
+// Enabling touch control for mobile
+canvas.addEventListener("touchstart", (e) => {
+    click = true;
+    x1 = null;
+    y1 = null;
+});
+canvas.addEventListener("touchend", (e) => (click = false));
+canvas.addEventListener(
+    "touchmove",
+    function (e) {
+        // Prevents scrolling on mobile
+        e.preventDefault();
+        e.stopPropagation();
+        var touch = e.touches[0];
+        var mouseEvent = new MouseEvent("mousemove", {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+        });
+        window.dispatchEvent(mouseEvent);
+    },
+    false
+);
+
 // Clears canvas element
 let clearBtn = document.querySelector(".clear");
 clearBtn.addEventListener("click", () => {

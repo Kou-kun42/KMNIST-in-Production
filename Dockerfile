@@ -1,14 +1,10 @@
-FROM python:3.10.4-alpine
+FROM python:3.10.4-buster
 
-RUN apk add --no-cache bash git \
-    && git clone https://github.com/Kou-kun42/Kuzushiji-MNIST-Classifier.git
-
-COPY /Kuzushiji-MNIST-Classifier/app /
-RUN rm -rf /Kuzushiji-MNIST-Classifier
-
+RUN mkdir /app
 WORKDIR /app
+ADD Kuzushiji-MNIST-Classifier/app .
 
-RUN pip3 install --no-cache-dir -r /requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 443
 ENTRYPOINT ["./gunicorn.sh"]

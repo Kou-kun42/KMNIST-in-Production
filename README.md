@@ -53,5 +53,5 @@ pip3 install -r requirements.txt
 Finally, launch the app:
 
 ```
-python3 app.py
+python3 main.py
 ```

@@ -2,8 +2,11 @@ from flask import Flask, request, render_template
 from PIL import Image, ImageOps
 import base64
 from io import BytesIO
+import os
 import json
 from predictor import ImagePredictor
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
 app = Flask(__name__)
 

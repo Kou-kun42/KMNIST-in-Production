@@ -26,13 +26,13 @@ For deployment, I created a Dockerfile to build the image and a docker-compose f
 
 If you would like to deploy this app locally, follow the following steps to set up your environment and launch the Flask development server:
 
-To launch this app on your local environment, clone this repository:
+To launch this app on your local environment, clone this repository and change directory to the app folder:
 
 ```
-git clone https://github.com/Kou-kun42/VideoGameInfo.git
+git clone https://github.com/Kou-kun42/Kuzushiji-MNIST-Classifier.git && cd Kuzushiji-MNIST-Classifier/app
 ```
 
-Then, set up a python virtual environment using:
+Assuming you have Python3 and pip installed, set up a python virtual environment using:
 
 ```
 python3 -m venv env
@@ -50,7 +50,7 @@ Next, install all the required packages:
 pip3 install -r requirements.txt
 ```
 
-Finally, launch the app:
+Finally, launch the app and navigate to the localhost endpoint on your browser:
 
 ```
 python3 main.py

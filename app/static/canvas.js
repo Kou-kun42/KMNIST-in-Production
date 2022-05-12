@@ -73,11 +73,15 @@ window.addEventListener("mousemove", (e) => {
 });
 
 // Enabling touch control for mobile
-canvas.addEventListener("touchstart", (e) => {
-    click = true;
-    x1 = null;
-    y1 = null;
-});
+canvas.addEventListener(
+    "touchstart",
+    (e) => {
+        click = true;
+        x1 = null;
+        y1 = null;
+    },
+    { passive: true }
+);
 canvas.addEventListener("touchend", (e) => (click = false));
 canvas.addEventListener(
     "touchmove",
@@ -92,7 +96,7 @@ canvas.addEventListener(
         });
         window.dispatchEvent(mouseEvent);
     },
-    false
+    { passive: false }
 );
 
 // Clears canvas element

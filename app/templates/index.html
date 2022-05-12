@@ -43,9 +43,6 @@
                 padding: 15px;
                 margin: auto;
             }
-            .pred {
-                padding: auto;
-            }
             .btn-social {
                 border-radius: 100%;
                 display: inline-flex;
@@ -62,8 +59,11 @@
             <div class="my-5">
                 <h1>Kuzushiji MNIST Classifier</h1>
             </div>
-            <canvas id="canvas"></canvas>
-            <div class="my-5">
+            <canvas
+                id="canvas"
+                class="border border-3 border-dark rounded"
+            ></canvas>
+            <div class="mt-5 mb-4">
                 <button
                     id="clear"
                     class="mx-2 pt-3 btn btn-lg btn-danger clear"
@@ -77,9 +77,27 @@
                     Enter
                 </button>
             </div>
-            <div class="container" id="prediction">
-                <h1 id="pred">ひらがな</h1>
+
+            <div
+                class="container"
+                style="display: inline-block"
+                id="prediction"
+            >
+                <h1
+                    id="pred"
+                    style="
+                        width: fit-content;
+                        height: fit-content;
+                        margin: 0 auto;
+                        padding: 1.25rem;
+                        padding-bottom: 0.9rem;
+                        border-radius: 50%;
+                    "
+                >
+                    ひらがな
+                </h1>
             </div>
+
             <div class="container">
                 <img
                     class="img-fluid"
@@ -90,6 +108,16 @@
             <footer class="footer text-center">
                 <div class="row text-center">
                     <div class="container">
+                        <a
+                            class="btn btn-outline-secondary btn-social mx-1 px-1"
+                            href="https://github.com/Kou-kun42/Kuzushiji-MNIST-Classifier"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            ><i
+                                class="bi bi-git"
+                                style="font-size: 40px; height: 50px"
+                            ></i
+                        ></a>
                         <a
                             class="btn btn-outline-secondary btn-social mx-1 px-1"
                             href="https://github.com/Kou-kun42"

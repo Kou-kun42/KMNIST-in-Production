@@ -103,6 +103,23 @@ clearBtn.addEventListener("click", () => {
     context.fillRect(0, 0, canvas.width, canvas.height);
 });
 
+// Flash prediction on update
+let predBG = "rgba(200, 200, 244, ";
+let flashBG = () => {
+    let predBGopacity = 1.0;
+    let predBox = document.getElementById("pred");
+
+    // Set background color and bring opacity to 1
+    predBox.style.backgroundColor = predBG + predBGopacity + ")";
+
+    // While the opacity is viewable, keep lowering it until it's gone
+    let intr = setInterval(() => {
+        predBGopacity -= 0.02;
+        predBox.style.backgroundColor = predBG + predBGopacity + ")";
+        if (predBGopacity <= 0) clearInterval(intr);
+    }, 20);
+};
+
 // Checks if canvas is empty to prevent blank submissions
 let isEmpty = () => {
     const blank = document.createElement("canvas");
@@ -136,6 +153,8 @@ predictBtn.addEventListener("click", () => {
                 // Update h1 element on page with prediction
                 pred.innerHTML = result.prediction;
                 document.getElementById("pred").innerHTML = pred.innerHTML;
+                // Flash the element
+                flashBG();
                 submitted = true;
             })
             .catch((error) => {
